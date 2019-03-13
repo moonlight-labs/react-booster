@@ -2,6 +2,8 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 // import { Image } from '../src/Image';
 import { ActionButton } from '../src/ActionButton';
+import { UrlInput } from '../src/UrlInput';
+import { Mock } from '../src/Mock';
 
 class ActionButtonWrapper extends React.Component {
   private actionButton: any;
@@ -32,6 +34,17 @@ class ActionButtonWrapper extends React.Component {
 }
 
 storiesOf('ActionButton', module).add('basic', () => <ActionButtonWrapper />);
+
+storiesOf('UrlInput', module).add('basic', () => <UrlInput />);
+
+storiesOf('Mock', module).add('basic', () => (
+  <div>
+    <Mock />
+    <Mock title="Special Section" />
+    <Mock title="Stylized" style={{ background: 'lightblue', width: 200 }} />
+    <Mock title="Lorem" lorem />
+  </div>
+));
 // .add('with some emoji', () => (
 //   <Button><span role="img" aria-label="so cool">😀 😎 👍 💯</span></Button>
 // ));

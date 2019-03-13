@@ -1,0 +1,10 @@
+{
+  "eslint.autoFixOnSave": true,
+  "eslint.packageManager": "yarn",
+  "prettier.eslintIntegration": true,
+  "prettier.printWidth": 120,
+  "prettier.singleQuote": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveTimeout": 2000
+}
