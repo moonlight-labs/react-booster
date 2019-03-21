@@ -18,7 +18,7 @@ A validating input that verifies form and the network-connected validity of URL.
 
 ## IDEAS/TODO
 
-- Image - a amrt image component that enforces ADA compliance
+- Image - a smart image component that enforces ADA compliance
 - FitText - show text that will always fit in its container
 - VcardAddress - http://microformats.org/wiki/h-adr
 - Microformats: Person, Address, Event

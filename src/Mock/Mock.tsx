@@ -6,6 +6,7 @@ interface PropsType {
   title?: string;
   style?: any;
   lorem?: boolean;
+  flex?: boolean;
 }
 
 interface StateType {}
@@ -24,38 +25,13 @@ export class Mock extends React.Component<PropsType, StateType> {
     const loremIpsum =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
+    const containerStyle = this.props.flex ? { display: 'flex' } : {};
+
     return (
       <div style={{ ...defaultStyle, ...this.props.style }}>
         <div>{this.props.title || this.constructor.name}</div>
-        {this.props.children || (this.props.lorem && loremIpsum)}
+        <div style={containerStyle}>{this.props.children || (this.props.lorem && loremIpsum)}</div>
       </div>
     );
   }
 }
-
-// export class Placeholder extends React.Component {
-//   static propTypes = {
-//     backgroundColor: PropTypes.string,
-//     title: PropTypes.string,
-//     minHeight: PropTypes.number,
-//     minWidth: PropTypes.number,
-//     children: PropTypes.node
-//   };
-
-//   render() {
-//     let generalStyle = {
-//       backgroundColor: this.props.backgroundColor || '#eee',
-//       minHeight: this.props.minHeight || 100,
-//       minWidth: this.props.minWidth || 100,
-//       marginBottom: 20,
-//       border: 'solid 1px #333',
-//       padding: 10
-//     };
-//     return (
-//       <div style={generalStyle}>
-//         <div>{this.props.title || this.constructor.name}</div>
-//         {this.props.children}
-//       </div>
-//     );
-//   }
-// }

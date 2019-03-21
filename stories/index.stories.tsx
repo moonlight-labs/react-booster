@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 // import { Image } from '../src/Image';
 import { ActionButton } from '../src/ActionButton';
 import { UrlInput } from '../src/UrlInput';
-import { Mock } from '../src/Mock';
+import { Mock, MockForm, MockTable } from '../src/Mock';
 
 class ActionButtonWrapper extends React.Component {
   private actionButton: any;
@@ -35,16 +35,25 @@ class ActionButtonWrapper extends React.Component {
 
 storiesOf('ActionButton', module).add('basic', () => <ActionButtonWrapper />);
 
-storiesOf('UrlInput', module).add('basic', () => <UrlInput />);
+storiesOf('UrlInput', module).add('basic', () => <UrlInput style={{ padding: 10 }} />);
 
-storiesOf('Mock', module).add('basic', () => (
-  <div>
-    <Mock />
-    <Mock title="Special Section" />
-    <Mock title="Stylized" style={{ background: 'lightblue', width: 200 }} />
-    <Mock title="Lorem" lorem />
-  </div>
-));
-// .add('with some emoji', () => (
-//   <Button><span role="img" aria-label="so cool">😀 😎 👍 💯</span></Button>
-// ));
+storiesOf('Mock', module)
+  .add('block', () => (
+    <div>
+      <Mock />
+      <Mock title="Special Section" />
+      <Mock title="Stylized" style={{ background: 'lightblue', width: 200 }} />
+      <Mock title="Lorem" lorem />
+      <Mock title="Nested Flexbox" flex>
+        <Mock title="Section 1" lorem />
+        <Mock title="Section 2">
+          <Mock lorem />
+        </Mock>
+      </Mock>
+    </div>
+  ))
+  .add('table', () => <MockTable />)
+  .add('form', () => <MockForm />)
+  .add('form with options', () => (
+    <MockForm title={<h2>User Profile</h2>} fields={['name', 'address', 'height', 'weight', 'age']} />
+  ));
