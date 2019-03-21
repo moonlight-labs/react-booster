@@ -7,6 +7,7 @@ import { debounce } from 'ts-debounce';
 
 const GreenCheck = require('./images/green-check.svg') as string;
 const RedX = require('./images/red-x-2.svg') as string;
+// import RedX from 'UrlInput/images/red-x-2.svg';
 
 interface PropsType {
   style?: React.CSSProperties;
