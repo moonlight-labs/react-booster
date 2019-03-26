@@ -9,7 +9,7 @@ interface PropsType {
 
 interface StateType {}
 
-export class MockTable extends React.Component<PropsType, StateType> {
+export class Table extends React.Component<PropsType, StateType> {
   dataForColumn(name: string) {
     return 'rando';
   }

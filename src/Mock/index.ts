@@ -1,4 +1,10 @@
 // export { Image } from './Image';
-export { Mock } from './Mock';
-export { MockForm } from './MockForm';
-export { MockTable } from './MockTable';
+import { Block } from './Block';
+import { Form } from './Form';
+import { Table } from './Table';
+
+export class Mock {
+  static Block = Block;
+  static Form = Form;
+  static Table = Table;
+}

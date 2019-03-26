@@ -28,6 +28,10 @@ A validating input that verifies form and the network-connected validity of URL.
 - Mock
 - UrlInput
 
+## 0.1.3 - Apr 26, 2019
+
+- Mock.Block, Mock.Table Mock.Form - use to quickly wireframe components on a UI
+
 ## 0.1.0 - Feb 21, 2019
 
 - ActionButton - a tri-state button that eliminates double-clicks and shows feedback while processing

@@ -109,12 +109,12 @@ var ActionButton = /** @class */ (function (_super) {
 
 // export { Image } from './Image';
 
-var Mock = /** @class */ (function (_super) {
-    __extends(Mock, _super);
-    function Mock() {
+var Block = /** @class */ (function (_super) {
+    __extends(Block, _super);
+    function Block() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Mock.prototype.render = function () {
+    Block.prototype.render = function () {
         var defaultStyle = {
             backgroundColor: '#eee',
             minHeight: 100,
@@ -129,15 +129,15 @@ var Mock = /** @class */ (function (_super) {
             createElement("div", null, this.props.title || this.constructor.name),
             createElement("div", { style: containerStyle }, this.props.children || (this.props.lorem && loremIpsum))));
     };
-    return Mock;
+    return Block;
 }(Component));
 
-var MockForm = /** @class */ (function (_super) {
-    __extends(MockForm, _super);
-    function MockForm() {
+var Form = /** @class */ (function (_super) {
+    __extends(Form, _super);
+    function Form() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    MockForm.prototype.render = function () {
+    Form.prototype.render = function () {
         var defaultStyle = {
         // backgroundColor: '#eee',
         // minHeight: 100,
@@ -154,7 +154,7 @@ var MockForm = /** @class */ (function (_super) {
                 createElement("input", { name: "{field}" }))); }),
             createElement("input", { className: "button-primary", type: "submit", value: "Send" })));
     };
-    return MockForm;
+    return Form;
 }(Component));
 // export class Placeholder extends React.Component {
 //   static propTypes = {
@@ -182,15 +182,15 @@ var MockForm = /** @class */ (function (_super) {
 //   }
 // }
 
-var MockTable = /** @class */ (function (_super) {
-    __extends(MockTable, _super);
-    function MockTable() {
+var Table = /** @class */ (function (_super) {
+    __extends(Table, _super);
+    function Table() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    MockTable.prototype.dataForColumn = function (name) {
+    Table.prototype.dataForColumn = function (name) {
         return 'rando';
     };
-    MockTable.prototype.render = function () {
+    Table.prototype.render = function () {
         var _this = this;
         var columns = this.props.columns || ['name', 'email', 'phone'];
         var data = Array.from({ length: this.props.rows || 50 }, function () { return Math.floor(Math.random() * 10); });
@@ -199,7 +199,7 @@ var MockTable = /** @class */ (function (_super) {
                 createElement("tr", null, columns.map(function (column) { return (createElement("th", null, column)); }))),
             createElement("tbody", null, data.map(function () { return (createElement("tr", null, columns.map(function (column) { return (createElement("td", null, _this.dataForColumn(column))); }))); }))));
     };
-    return MockTable;
+    return Table;
 }(Component));
 // export class Placeholder extends React.Component {
 //   static propTypes = {
@@ -228,5 +228,13 @@ var MockTable = /** @class */ (function (_super) {
 // }
 
 // export { Image } from './Image';
+var Mock = /** @class */ (function () {
+    function Mock() {
+    }
+    Mock.Block = Block;
+    Mock.Form = Form;
+    Mock.Table = Table;
+    return Mock;
+}());
 
-export { Image, ActionButton, Mock };
+export { ActionButton, Image, Mock };

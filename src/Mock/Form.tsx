@@ -10,7 +10,7 @@ interface PropsType {
 
 interface StateType {}
 
-export class MockForm extends React.Component<PropsType, StateType> {
+export class Form extends React.Component<PropsType, StateType> {
   render() {
     const defaultStyle = {
       // backgroundColor: '#eee',

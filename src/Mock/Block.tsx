@@ -11,7 +11,7 @@ interface PropsType {
 
 interface StateType {}
 
-export class Mock extends React.Component<PropsType, StateType> {
+export class Block extends React.Component<PropsType, StateType> {
   render() {
     const defaultStyle = {
       backgroundColor: '#eee',
