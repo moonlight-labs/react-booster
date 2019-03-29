@@ -227,13 +227,29 @@ var Table = /** @class */ (function (_super) {
 //   }
 // }
 
-// export { Image } from './Image';
+// export const Todo: React.SFC<propsType> = props => {
+var Todo = /** @class */ (function (_super) {
+    __extends(Todo, _super);
+    function Todo() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Todo.prototype.render = function () {
+        var props = this.props;
+        var doneStyle = { color: '#aaa', textDecoration: 'line-through', fontSize: '75%' };
+        var hiStyle = { fontWeight: 'bold' };
+        var style = __assign({}, (props.done && doneStyle), (props.hi && hiStyle));
+        return createElement("li", { style: style }, props.children);
+    };
+    return Todo;
+}(Component));
+
 var Mock = /** @class */ (function () {
     function Mock() {
     }
     Mock.Block = Block;
     Mock.Form = Form;
     Mock.Table = Table;
+    Mock.Todo = Todo;
     return Mock;
 }());
 

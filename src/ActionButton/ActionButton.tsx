@@ -41,11 +41,11 @@ export class ActionButton extends React.Component<PropsType & React.HTMLProps<HT
   //   this.state = { disabled: false, status: ActionButton.states.init };
   // }
 
-  done() {
+  done(): void {
     this.setState({ status: ActionButton.states.done });
   }
 
-  reset() {
+  reset(): void {
     this.setState({ disabled: false, status: ActionButton.states.init });
   }
 

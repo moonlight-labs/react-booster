@@ -56,4 +56,13 @@ storiesOf('Mock', module)
   .add('form', () => <Mock.Form />)
   .add('form with options', () => (
     <Mock.Form title={<h2>User Profile</h2>} fields={['name', 'address', 'height', 'weight', 'age']} />
+  ))
+  .add('todo', () => (
+    <div>
+      <ul>
+        <Mock.Todo>Update the README</Mock.Todo>
+        <Mock.Todo hi>Bump the version</Mock.Todo>
+        <Mock.Todo done>More components</Mock.Todo>
+      </ul>
+    </div>
   ));

@@ -31,6 +31,7 @@ A validating input that verifies form and the network-connected validity of URL.
 ## 0.1.3 - Apr 26, 2019
 
 - Mock.Block, Mock.Table Mock.Form - use to quickly wireframe components on a UI
+- Upgrade deps
 
 ## 0.1.0 - Feb 21, 2019
 
