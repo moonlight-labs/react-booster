@@ -20,27 +20,27 @@ export class Table extends React.Component<PropsType, StateType> {
     const data = Array.from({ length: this.props.rows || 30 }, () => Math.floor(Math.random() * 10));
 
     return (
-      <>
-      {this.props.title }
-      <table>
-        <thead>
-          <tr>
-            {columns.map(column => (
-              <th>{column}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map(() => (
+      <div>
+        {this.props.title }
+        <table>
+          <thead>
             <tr>
               {columns.map(column => (
-                <td>{this.dataForColumn(column)}</td>
+                <th>{column}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-      </>
+          </thead>
+          <tbody>
+            {data.map(() => (
+              <tr>
+                {columns.map(column => (
+                  <td>{this.dataForColumn(column)}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
