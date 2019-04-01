@@ -1,4 +1,4 @@
-import { createElement, Component, Fragment } from 'react';
+import { createElement, Component } from 'react';
 
 // import * as ReactDOM from 'react-dom';
 // import './Image.css';
@@ -194,7 +194,7 @@ var Table = /** @class */ (function (_super) {
         var _this = this;
         var columns = this.props.columns || ['name', 'email', 'phone'];
         var data = Array.from({ length: this.props.rows || 30 }, function () { return Math.floor(Math.random() * 10); });
-        return (createElement(Fragment, null,
+        return (createElement("div", null,
             this.props.title,
             createElement("table", null,
                 createElement("thead", null,

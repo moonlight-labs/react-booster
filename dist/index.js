@@ -198,7 +198,7 @@ var Table = /** @class */ (function (_super) {
         var _this = this;
         var columns = this.props.columns || ['name', 'email', 'phone'];
         var data = Array.from({ length: this.props.rows || 30 }, function () { return Math.floor(Math.random() * 10); });
-        return (React.createElement(React.Fragment, null,
+        return (React.createElement("div", null,
             this.props.title,
             React.createElement("table", null,
                 React.createElement("thead", null,
