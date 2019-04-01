@@ -5,20 +5,23 @@ import * as React from 'react';
 interface PropsType {
   rows?: number;
   columns?: string[];
+  title?: JSX.Element;
 }
 
 interface StateType {}
 
 export class Table extends React.Component<PropsType, StateType> {
   dataForColumn(name: string) {
-    return 'rando';
+    return <div style={{background: '#eee', height: '60%', minWidth: 60, margin: 3}}>&nbsp;</div>;
   }
 
   render() {
     const columns = this.props.columns || ['name', 'email', 'phone'];
-    const data = Array.from({ length: this.props.rows || 50 }, () => Math.floor(Math.random() * 10));
+    const data = Array.from({ length: this.props.rows || 30 }, () => Math.floor(Math.random() * 10));
 
     return (
+      <>
+      {this.props.title }
       <table>
         <thead>
           <tr>
@@ -37,6 +40,7 @@ export class Table extends React.Component<PropsType, StateType> {
           ))}
         </tbody>
       </table>
+      </>
     );
   }
 }

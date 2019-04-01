@@ -1,4 +1,4 @@
-import { createElement, Component } from 'react';
+import { createElement, Component, Fragment } from 'react';
 
 // import * as ReactDOM from 'react-dom';
 // import './Image.css';
@@ -188,16 +188,18 @@ var Table = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Table.prototype.dataForColumn = function (name) {
-        return 'rando';
+        return createElement("div", { style: { background: '#eee', height: '60%', minWidth: 60, margin: 3 } }, "\u00A0");
     };
     Table.prototype.render = function () {
         var _this = this;
         var columns = this.props.columns || ['name', 'email', 'phone'];
-        var data = Array.from({ length: this.props.rows || 50 }, function () { return Math.floor(Math.random() * 10); });
-        return (createElement("table", null,
-            createElement("thead", null,
-                createElement("tr", null, columns.map(function (column) { return (createElement("th", null, column)); }))),
-            createElement("tbody", null, data.map(function () { return (createElement("tr", null, columns.map(function (column) { return (createElement("td", null, _this.dataForColumn(column))); }))); }))));
+        var data = Array.from({ length: this.props.rows || 30 }, function () { return Math.floor(Math.random() * 10); });
+        return (createElement(Fragment, null,
+            this.props.title,
+            createElement("table", null,
+                createElement("thead", null,
+                    createElement("tr", null, columns.map(function (column) { return (createElement("th", null, column)); }))),
+                createElement("tbody", null, data.map(function () { return (createElement("tr", null, columns.map(function (column) { return (createElement("td", null, _this.dataForColumn(column))); }))); })))));
     };
     return Table;
 }(Component));
