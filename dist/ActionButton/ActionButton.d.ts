@@ -4,6 +4,7 @@ interface PropsType {
     duringContent?: React.ReactNode;
     afterContent?: React.ReactNode;
     onClick: Function;
+    disabled: boolean;
 }
 interface StateType {
     disabled: boolean;

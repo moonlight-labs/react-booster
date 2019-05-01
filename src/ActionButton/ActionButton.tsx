@@ -5,6 +5,7 @@ interface PropsType {
   duringContent?: React.ReactNode;
   afterContent?: React.ReactNode;
   onClick: Function;
+  disabled: boolean;
 
   // children: JSX.Element;
   // name: string;
@@ -73,7 +74,7 @@ export class ActionButton extends React.Component<PropsType & React.HTMLProps<HT
     return (
       <button
         {...props}
-        disabled={this.state.disabled}
+        disabled={this.props.disabled || this.state.disabled}
         onClick={event => {
           this.setState({ disabled: true, status: ActionButton.states.during });
           this.props.onClick(event);

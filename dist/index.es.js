@@ -94,7 +94,7 @@ var ActionButton = /** @class */ (function (_super) {
     ActionButton.prototype.render = function () {
         var _this = this;
         var _a = this.props, children = _a.children, duringContent = _a.duringContent, afterContent = _a.afterContent, onClick = _a.onClick, props = __rest(_a, ["children", "duringContent", "afterContent", "onClick"]);
-        return (createElement("button", __assign({}, props, { disabled: this.state.disabled, onClick: function (event) {
+        return (createElement("button", __assign({}, props, { disabled: this.props.disabled || this.state.disabled, onClick: function (event) {
                 _this.setState({ disabled: true, status: ActionButton.states.during });
                 _this.props.onClick(event);
             } }), this.renderContents()));
