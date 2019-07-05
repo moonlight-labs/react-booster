@@ -5,7 +5,7 @@ interface PropsType {
   duringContent?: React.ReactNode;
   afterContent?: React.ReactNode;
   onClick: Function;
-  disabled: boolean;
+  disabled?: boolean;
 
   // children: JSX.Element;
   // name: string;
