@@ -30,6 +30,8 @@ export class ActionButton extends React.Component<PropsType & React.HTMLProps<HT
     done: 'done'
   };
 
+  mounted: boolean = false;
+
   // export declare type States = 'init' | 'during' | 'done';
 
   public readonly state = {
@@ -42,12 +44,21 @@ export class ActionButton extends React.Component<PropsType & React.HTMLProps<HT
   //   this.state = { disabled: false, status: ActionButton.states.init };
   // }
 
-  done(): void {
-    this.setState({ status: ActionButton.states.done });
+  componentDidMount() {
+    this.mounted = true;
   }
 
-  reset(): void {
-    this.setState({ disabled: false, status: ActionButton.states.init });
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  done(): void {
+    if (this.mounted) this.setState({ status: ActionButton.states.done });
+  }
+
+  reset(milliseconds: number = 4000): void {
+    if (this.mounted)
+      setTimeout(() => this.setState({ disabled: false, status: ActionButton.states.init }), milliseconds);
   }
 
   // onClick = (evt: event) => {
