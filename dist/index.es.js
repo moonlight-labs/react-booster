@@ -60,6 +60,7 @@ var ActionButton = /** @class */ (function (_super) {
     __extends(ActionButton, _super);
     function ActionButton() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.mounted = false;
         // export declare type States = 'init' | 'during' | 'done';
         _this.state = {
             disabled: false,
@@ -71,11 +72,21 @@ var ActionButton = /** @class */ (function (_super) {
     //   super(props);
     //   this.state = { disabled: false, status: ActionButton.states.init };
     // }
-    ActionButton.prototype.done = function () {
-        this.setState({ status: ActionButton.states.done });
+    ActionButton.prototype.componentDidMount = function () {
+        this.mounted = true;
     };
-    ActionButton.prototype.reset = function () {
-        this.setState({ disabled: false, status: ActionButton.states.init });
+    ActionButton.prototype.componentWillUnmount = function () {
+        this.mounted = false;
+    };
+    ActionButton.prototype.done = function () {
+        if (this.mounted)
+            this.setState({ status: ActionButton.states.done });
+    };
+    ActionButton.prototype.reset = function (milliseconds) {
+        var _this = this;
+        if (milliseconds === void 0) { milliseconds = 4000; }
+        if (this.mounted)
+            setTimeout(function () { return _this.setState({ disabled: false, status: ActionButton.states.init }); }, milliseconds);
     };
     // onClick = (evt: event) => {
     //   this.setState({ disabled: true, status: ActionButton.states.during });

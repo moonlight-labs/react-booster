@@ -4,7 +4,7 @@ interface PropsType {
     duringContent?: React.ReactNode;
     afterContent?: React.ReactNode;
     onClick: Function;
-    disabled: boolean;
+    disabled?: boolean;
 }
 interface StateType {
     disabled: boolean;
@@ -12,16 +12,17 @@ interface StateType {
 }
 export declare class ActionButton extends React.Component<PropsType & React.HTMLProps<HTMLButtonElement>, StateType> {
     static states: {
-        init: string;
-        during: string;
-        done: string;
+        [key: string]: string;
     };
+    mounted: boolean;
     readonly state: {
         disabled: boolean;
         status: string;
     };
+    componentDidMount(): void;
+    componentWillUnmount(): void;
     done(): void;
-    reset(): void;
+    reset(milliseconds?: number): void;
     renderContents(): {} | null | undefined;
     render(): JSX.Element;
 }
