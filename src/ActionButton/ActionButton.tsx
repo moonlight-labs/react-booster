@@ -57,8 +57,9 @@ export class ActionButton extends React.Component<PropsType & React.HTMLProps<HT
   }
 
   reset(milliseconds: number = 4000): void {
-    if (this.mounted)
-      setTimeout(() => this.setState({ disabled: false, status: ActionButton.states.init }), milliseconds);
+    setTimeout(() => {
+      if (this.mounted) this.setState({ disabled: false, status: ActionButton.states.init });
+    }, milliseconds);
   }
 
   // onClick = (evt: event) => {

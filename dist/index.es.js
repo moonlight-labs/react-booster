@@ -85,8 +85,10 @@ var ActionButton = /** @class */ (function (_super) {
     ActionButton.prototype.reset = function (milliseconds) {
         var _this = this;
         if (milliseconds === void 0) { milliseconds = 4000; }
-        if (this.mounted)
-            setTimeout(function () { return _this.setState({ disabled: false, status: ActionButton.states.init }); }, milliseconds);
+        setTimeout(function () {
+            if (_this.mounted)
+                _this.setState({ disabled: false, status: ActionButton.states.init });
+        }, milliseconds);
     };
     // onClick = (evt: event) => {
     //   this.setState({ disabled: true, status: ActionButton.states.during });
