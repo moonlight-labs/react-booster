@@ -24,7 +24,7 @@ interface StateType {
 }
 
 export class ActionButton extends React.Component<PropsType & React.HTMLProps<HTMLButtonElement>, StateType> {
-  static states = {
+  static states: { [key: string]: string } = {
     init: 'init',
     during: 'during',
     done: 'done'
