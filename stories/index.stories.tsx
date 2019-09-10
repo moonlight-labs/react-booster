@@ -21,9 +21,7 @@ class ActionButtonWrapper extends React.Component {
           setTimeout(() => {
             this.actionButton.done();
             // Reset the button after a couple more seconds - call reset()
-            setTimeout(() => {
-              this.actionButton.reset();
-            }, 2000);
+            this.actionButton.reset();
           }, 2000)
         }
       >
@@ -53,7 +51,7 @@ storiesOf('Mock', module)
     </div>
   ))
   .add('table', () => <Mock.Table />)
-    .add('table with title', () => <Mock.Table title={<h4>My Table Title</h4>}/>)
+  .add('table with title', () => <Mock.Table title={<h4>My Table Title</h4>} />)
   .add('form', () => <Mock.Form />)
   .add('form with options', () => (
     <Mock.Form title={<h2>User Profile</h2>} fields={['name', 'address', 'height', 'weight', 'age']} />
