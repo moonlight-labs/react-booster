@@ -1,11 +1,11 @@
 import * as React from 'react';
 import 'shared/styles/geosuggest.scss';
 declare type AddressSelectorProps = {
-    value: string;
+    value?: string;
     placeholder: string;
     disabled: boolean;
     onChange: (address: string) => void;
-    className: string;
+    className?: string;
     invalid: boolean;
     disabledPlaceholder: string;
 };

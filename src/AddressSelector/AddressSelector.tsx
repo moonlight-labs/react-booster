@@ -3,11 +3,11 @@ import 'shared/styles/geosuggest.scss';
 import Geosuggest from 'react-geosuggest';
 
 type AddressSelectorProps = {
-  value: string;
+  value?: string;
   placeholder: string;
   disabled: boolean;
   onChange: (address: string) => void;
-  className: string;
+  className?: string;
   invalid: boolean;
   disabledPlaceholder: string;
 };
@@ -61,7 +61,7 @@ export class AddressSelector extends React.Component<AddressSelectorProps> {
       />
     ) : (
       <AddressStatic
-        address={value}
+        address={value || ''}
         onClick={this.enableEdit}
         disabled={disabled}
         invalid={invalid}

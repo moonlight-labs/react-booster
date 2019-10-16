@@ -295,7 +295,7 @@ var AddressSelector = /** @class */ (function (_super) {
         var _a = this.props, value = _a.value, placeholder = _a.placeholder, className = _a.className, disabled = _a.disabled, invalid = _a.invalid, disabledPlaceholder = _a.disabledPlaceholder;
         return this.state.viewState == 'editing' ? (createElement(Geosuggest, { ref: function (ref) {
                 _this._geoSuggest = ref;
-            }, className: className, placeholder: placeholder, initialValue: value || '', renderSuggestItem: this.renderSuggestItem, onSuggestSelect: this._onSelect, onBlur: this._onBlur })) : (createElement(AddressStatic, { address: value, onClick: this.enableEdit, disabled: disabled, invalid: invalid, placeholder: placeholder, disabledPlaceholder: disabledPlaceholder }));
+            }, className: className, placeholder: placeholder, initialValue: value || '', renderSuggestItem: this.renderSuggestItem, onSuggestSelect: this._onSelect, onBlur: this._onBlur })) : (createElement(AddressStatic, { address: value || '', onClick: this.enableEdit, disabled: disabled, invalid: invalid, placeholder: placeholder, disabledPlaceholder: disabledPlaceholder }));
     };
     AddressSelector.defaultProps = {
         placeholder: '123 Main St., City, State ZIP',
