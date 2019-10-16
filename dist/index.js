@@ -2,7 +2,11 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
 var React = require('react');
+require('shared/styles/geosuggest.scss');
+var Geosuggest = _interopDefault(require('react-geosuggest'));
 
 // import * as ReactDOM from 'react-dom';
 // import './Image.css';
@@ -272,6 +276,74 @@ var Mock = /** @class */ (function () {
     return Mock;
 }());
 
+var AddressSelector = /** @class */ (function (_super) {
+    __extends(AddressSelector, _super);
+    function AddressSelector() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = { viewState: 'static' };
+        _this.enableEdit = function () { return _this.setState({ viewState: 'editing' }, _this._focusGeosuggest); };
+        _this.disableEdit = function () { return _this.setState({ viewState: 'static' }); };
+        _this._focusGeosuggest = function () { return _this._geoSuggest.focus(); };
+        _this._onBlur = function (address) {
+            _this.props.onChange(address);
+            _this.disableEdit();
+        };
+        _this._onSelect = function (googlePlacesObject) {
+            var value = googlePlacesObject == undefined ? '' : googlePlacesObject.gmaps.formatted_address;
+            _this.props.onChange(value);
+            _this.disableEdit();
+        };
+        _this.renderSuggestItem = function (suggestion) { return React.createElement(AddressDisplay, { address: suggestion.label }); };
+        return _this;
+    }
+    AddressSelector.prototype.render = function () {
+        var _this = this;
+        var _a = this.props, value = _a.value, placeholder = _a.placeholder, className = _a.className, disabled = _a.disabled, invalid = _a.invalid, disabledPlaceholder = _a.disabledPlaceholder;
+        return this.state.viewState == 'editing' ? (React.createElement(Geosuggest, { ref: function (ref) {
+                _this._geoSuggest = ref;
+            }, className: className, placeholder: placeholder, initialValue: value || '', renderSuggestItem: this.renderSuggestItem, onSuggestSelect: this._onSelect, onBlur: this._onBlur })) : (React.createElement(AddressStatic, { address: value, onClick: this.enableEdit, disabled: disabled, invalid: invalid, placeholder: placeholder, disabledPlaceholder: disabledPlaceholder }));
+    };
+    AddressSelector.defaultProps = {
+        placeholder: '123 Main St., City, State ZIP',
+        disabledPlaceholder: 'Contact support to add an address',
+        disabled: false,
+        invalid: false
+    };
+    return AddressSelector;
+}(React.Component));
+var AddressStatic = /** @class */ (function (_super) {
+    __extends(AddressStatic, _super);
+    function AddressStatic() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    AddressStatic.prototype.render = function () {
+        var _this = this;
+        var _a = this.props, placeholder = _a.placeholder, disabled = _a.disabled, disabledPlaceholder = _a.disabledPlaceholder, renderHiddenInput = _a.renderHiddenInput, hiddenInputName = _a.hiddenInputName;
+        var address = this.props.address ? this.props.address : disabled ? disabledPlaceholder : placeholder;
+        return (React.createElement("div", { tabIndex: 0, 
+            // autoFocus={true}
+            onFocus: function () {
+                !_this.props.disabled && _this.props.onClick();
+            }, className: "h-auto form-control " + (this.props.invalid ? 'is-invalid' : '') + " " + (this.props.address ? '' : 'placeholder') },
+            React.createElement(AddressDisplay, { address: address }),
+            renderHiddenInput && React.createElement("input", { name: hiddenInputName, value: this.props.address, type: "hidden" })));
+    };
+    AddressStatic.defaultProps = { renderHiddenInput: true, hiddenInputName: 'address' };
+    return AddressStatic;
+}(React.Component));
+var AddressDisplay = function (_a) {
+    var address = _a.address;
+    if (!address)
+        return null;
+    var splitAddressArr = address.split(',');
+    var addr1 = splitAddressArr[0];
+    var addr2 = splitAddressArr.slice(1).join(',');
+    return (React.createElement(React.Fragment, null,
+        React.createElement("div", null, addr1),
+        React.createElement("div", null, addr2)));
+};
+
 exports.ActionButton = ActionButton;
+exports.AddressSelector = AddressSelector;
 exports.Image = Image;
 exports.Mock = Mock;
