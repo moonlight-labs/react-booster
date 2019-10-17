@@ -3,8 +3,8 @@ $shadowColor: rgb(198, 223, 255);
 $boxShadow: 0 0 0 $shadowSize $shadowColor;
 
 .geosuggest {
-  font-size: 18px;
-  font-size: 1rem;
+  // font-size: 18px;
+  // font-size: 1rem;
   position: relative;
   width: 100%;
   margin: 0 auto 1em;
@@ -15,8 +15,8 @@ $boxShadow: 0 0 0 $shadowSize $shadowColor;
   width: 100%;
   border: 0;
   box-shadow: 0 0 0 0 $shadowColor;
-  font-size: 16px; // fallback
-  font-size: 1rem;
+  // font-size: 16px; // fallback
+  // font-size: 1rem;
   line-height: 1.5;
   padding: 0.375rem 0.75rem;
   transition: box-shadow 0.2s ease;
@@ -59,8 +59,8 @@ $boxShadow: 0 0 0 $shadowSize $shadowColor;
  * A geosuggest item
  */
 .geosuggest__item {
-  font-size: 18px;
-  font-size: 1rem;
+  // font-size: 18px;
+  // font-size: 1rem;
   padding: 0.5em 0.65em;
   cursor: pointer;
 
