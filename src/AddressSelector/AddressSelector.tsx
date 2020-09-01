@@ -1,28 +1,73 @@
 import * as React from 'react';
-import './styles.scss';
 import Geosuggest from 'react-geosuggest';
 
-type AddressSelectorProps = {
-  value?: string;
-  placeholder: string;
+import { Address } from './Addres';
+
+type AddressStaticProps = {
+  address?: string;
   disabled: boolean;
-  onChange: (address: string) => void;
-  className?: string;
-  invalid: boolean;
   disabledPlaceholder: string;
+  invalid: boolean;
+  onClick: () => void;
+  placeholder: string;
 };
 
-export class AddressSelector extends React.Component<AddressSelectorProps> {
-  _geoSuggest: any;
+class AddressStatic extends React.Component<AddressStaticProps> {
+  render() {
+    const { address, disabled, disabledPlaceholder, placeholder } = this.props;
 
+    const displayedAddress = address ? address : disabled ? disabledPlaceholder : placeholder;
+
+    return (
+      <div
+        tabIndex={0}
+        onFocus={() => {
+          !this.props.disabled && this.props.onClick();
+        }}
+        className={`h-auto form-control ${this.props.invalid ? 'is-invalid' : ''} ${address ? '' : 'placeholder'}`}
+      >
+        <Address address={displayedAddress} placeholder={placeholder} />
+      </div>
+    );
+  }
+}
+
+interface AddressSelectorProps {
+  // required
+  disabled: boolean;
+  placeholder: string;
+  invalid: boolean;
+  disabledPlaceholder: string;
+  includeHiddenInput: boolean;
+  includeStatic: boolean;
+  // optional
+  className?: string;
+  name?: string;
+  onChange?: (...args: any[]) => any;
+  value?: string;
+}
+
+type ViewStateType = 'editing' | 'static';
+
+interface AddressSelectorState {
+  viewState: ViewStateType;
+  value: string;
+}
+
+export class AddressSelector extends React.Component<AddressSelectorProps, AddressSelectorState> {
   static defaultProps = {
     placeholder: '123 Main St., City, State ZIP',
     disabledPlaceholder: 'Contact support to add an address',
     disabled: false,
-    invalid: false
+    invalid: false,
+    includeHiddenInput: false,
+    includeStatic: true,
+    name: 'address',
   };
 
-  state = { viewState: 'static' };
+  _geoSuggest: Geosuggest;
+
+  state = { viewState: 'static' as ViewStateType, value: '' };
 
   enableEdit = () => this.setState({ viewState: 'editing' }, this._focusGeosuggest);
 
@@ -31,37 +76,59 @@ export class AddressSelector extends React.Component<AddressSelectorProps> {
   _focusGeosuggest = () => this._geoSuggest.focus();
 
   _onBlur = (address: string) => {
-    this.props.onChange(address);
+    if (address) this.updateValue(address);
     this.disableEdit();
   };
 
   _onSelect = (googlePlacesObject: any) => {
     const value = googlePlacesObject == undefined ? '' : googlePlacesObject.gmaps.formatted_address;
 
-    this.props.onChange(value);
+    this.updateValue(value, googlePlacesObject);
     this.disableEdit();
   };
 
-  renderSuggestItem = (suggestion: any) => <AddressDisplay address={suggestion.label} />;
+  reset = () => {
+    this.setState({ viewState: 'static', value: '' });
+  };
+
+  updateValue = (value: string, googlePlacesObject?: any): void => {
+    this.setState({ value });
+    if (this.props.onChange) this.props.onChange(value, googlePlacesObject);
+  };
+
+  renderSuggestItem = (suggestion: any) => <Address address={suggestion.label} />;
 
   render() {
-    const { value, placeholder, className, disabled, invalid, disabledPlaceholder } = this.props;
-
-    return this.state.viewState == 'editing' ? (
-      <Geosuggest
-        ref={(ref: any) => {
-          this._geoSuggest = ref;
-        }}
-        className={className}
-        placeholder={placeholder}
-        initialValue={value || ''}
-        renderSuggestItem={this.renderSuggestItem}
-        onSuggestSelect={this._onSelect}
-        onBlur={this._onBlur}
-      />
+    const {
+      placeholder,
+      className,
+      disabled,
+      invalid,
+      disabledPlaceholder,
+      includeHiddenInput,
+      includeStatic,
+      name,
+    } = this.props;
+    const value = this.props.value || this.state.value; // if value isn't passed, component keeps track of its own state
+    return this.state.viewState == 'editing' || !includeStatic ? (
+      <>
+        {value && value != '' && includeHiddenInput && <input type="hidden" name={name} value={value} />}
+        <Geosuggest
+          ref={(i) => {
+            this._geoSuggest = i as Geosuggest;
+          }}
+          className={className}
+          placeholder={placeholder}
+          initialValue={value}
+          renderSuggestItem={this.renderSuggestItem}
+          onSuggestSelect={this._onSelect}
+          onBlur={this._onBlur}
+          name={name}
+        />
+      </>
     ) : (
       <AddressStatic
-        address={value || ''}
+        address={value}
         onClick={this.enableEdit}
         disabled={disabled}
         invalid={invalid}
@@ -71,57 +138,3 @@ export class AddressSelector extends React.Component<AddressSelectorProps> {
     );
   }
 }
-
-type AddressStaticProps = {
-  address: string;
-  placeholder: string;
-  disabled: boolean;
-  onClick: () => void;
-  invalid: boolean;
-  disabledPlaceholder: string;
-  renderHiddenInput: boolean;
-  hiddenInputName: string;
-};
-
-class AddressStatic extends React.Component<AddressStaticProps> {
-  static defaultProps = { renderHiddenInput: true, hiddenInputName: 'address' };
-
-  render() {
-    const { placeholder, disabled, disabledPlaceholder, renderHiddenInput, hiddenInputName } = this.props;
-
-    const address = this.props.address ? this.props.address : disabled ? disabledPlaceholder : placeholder;
-
-    return (
-      <div
-        tabIndex={0}
-        // autoFocus={true}
-        onFocus={() => {
-          !this.props.disabled && this.props.onClick();
-        }}
-        className={`h-auto form-control ${this.props.invalid ? 'is-invalid' : ''} ${
-          this.props.address ? '' : 'placeholder'
-        }`}
-      >
-        <AddressDisplay address={address} />
-        {renderHiddenInput && <input name={hiddenInputName} value={this.props.address} type="hidden" />}
-      </div>
-    );
-  }
-}
-
-type AddressDisplayProps = {
-  address?: string;
-};
-
-const AddressDisplay: React.FC<AddressDisplayProps> = ({ address }) => {
-  if (!address) return null;
-  const splitAddressArr = address.split(',');
-  const addr1 = splitAddressArr[0];
-  const addr2 = splitAddressArr.slice(1).join(',');
-  return (
-    <React.Fragment>
-      <div>{addr1}</div>
-      <div>{addr2}</div>
-    </React.Fragment>
-  );
-};

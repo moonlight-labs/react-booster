@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { ActionButton } from '../src/ActionButton';
 import { UrlInput } from '../src/UrlInput';
 import { Mock } from '../src/Mock';
+import { AddressSelector } from '../src/AddressSelector';
 
 class ActionButtonWrapper extends React.Component {
   private actionButton: any;
@@ -65,3 +66,9 @@ storiesOf('Mock', module)
       </ul>
     </div>
   ));
+
+storiesOf('AddressSelector', module).add('basic', () => (
+  <div style={{ margin: '2rem' }}>
+    <AddressSelector onChange={(address) => console.log(address)} />
+  </div>
+));

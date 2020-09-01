@@ -1,5 +1,4 @@
 import { createElement, Component, Fragment } from 'react';
-import 'shared/styles/geosuggest.scss';
 import Geosuggest from 'react-geosuggest';
 
 // import * as ReactDOM from 'react-dom';
@@ -270,41 +269,21 @@ var Mock = /** @class */ (function () {
     return Mock;
 }());
 
-var AddressSelector = /** @class */ (function (_super) {
-    __extends(AddressSelector, _super);
-    function AddressSelector() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.state = { viewState: 'static' };
-        _this.enableEdit = function () { return _this.setState({ viewState: 'editing' }, _this._focusGeosuggest); };
-        _this.disableEdit = function () { return _this.setState({ viewState: 'static' }); };
-        _this._focusGeosuggest = function () { return _this._geoSuggest.focus(); };
-        _this._onBlur = function (address) {
-            _this.props.onChange(address);
-            _this.disableEdit();
-        };
-        _this._onSelect = function (googlePlacesObject) {
-            var value = googlePlacesObject == undefined ? '' : googlePlacesObject.gmaps.formatted_address;
-            _this.props.onChange(value);
-            _this.disableEdit();
-        };
-        _this.renderSuggestItem = function (suggestion) { return createElement(AddressDisplay, { address: suggestion.label }); };
-        return _this;
-    }
-    AddressSelector.prototype.render = function () {
-        var _this = this;
-        var _a = this.props, value = _a.value, placeholder = _a.placeholder, className = _a.className, disabled = _a.disabled, invalid = _a.invalid, disabledPlaceholder = _a.disabledPlaceholder;
-        return this.state.viewState == 'editing' ? (createElement(Geosuggest, { ref: function (ref) {
-                _this._geoSuggest = ref;
-            }, className: className, placeholder: placeholder, initialValue: value || '', renderSuggestItem: this.renderSuggestItem, onSuggestSelect: this._onSelect, onBlur: this._onBlur })) : (createElement(AddressStatic, { address: value || '', onClick: this.enableEdit, disabled: disabled, invalid: invalid, placeholder: placeholder, disabledPlaceholder: disabledPlaceholder }));
-    };
-    AddressSelector.defaultProps = {
-        placeholder: '123 Main St., City, State ZIP',
-        disabledPlaceholder: 'Contact support to add an address',
-        disabled: false,
-        invalid: false
-    };
-    return AddressSelector;
-}(Component));
+var Address = function (_a) {
+    var address = _a.address, placeholder = _a.placeholder;
+    if (!address)
+        return null;
+    var splitAddressArr = address.split(',');
+    var addr1 = splitAddressArr[0];
+    var addr2 = splitAddressArr.slice(1).join(',');
+    var style = { fontSize: '14px' };
+    if (address == placeholder)
+        style.color = '#bfbfbf';
+    return (createElement("div", { style: style },
+        createElement("div", null, addr1),
+        createElement("div", null, addr2)));
+};
+
 var AddressStatic = /** @class */ (function (_super) {
     __extends(AddressStatic, _super);
     function AddressStatic() {
@@ -312,29 +291,64 @@ var AddressStatic = /** @class */ (function (_super) {
     }
     AddressStatic.prototype.render = function () {
         var _this = this;
-        var _a = this.props, placeholder = _a.placeholder, disabled = _a.disabled, disabledPlaceholder = _a.disabledPlaceholder, renderHiddenInput = _a.renderHiddenInput, hiddenInputName = _a.hiddenInputName;
-        var address = this.props.address ? this.props.address : disabled ? disabledPlaceholder : placeholder;
-        return (createElement("div", { tabIndex: 0, 
-            // autoFocus={true}
-            onFocus: function () {
+        var _a = this.props, address = _a.address, disabled = _a.disabled, disabledPlaceholder = _a.disabledPlaceholder, placeholder = _a.placeholder;
+        var displayedAddress = address ? address : disabled ? disabledPlaceholder : placeholder;
+        return (createElement("div", { tabIndex: 0, onFocus: function () {
                 !_this.props.disabled && _this.props.onClick();
-            }, className: "h-auto form-control " + (this.props.invalid ? 'is-invalid' : '') + " " + (this.props.address ? '' : 'placeholder') },
-            createElement(AddressDisplay, { address: address }),
-            renderHiddenInput && createElement("input", { name: hiddenInputName, value: this.props.address, type: "hidden" })));
+            }, className: "h-auto form-control " + (this.props.invalid ? 'is-invalid' : '') + " " + (address ? '' : 'placeholder') },
+            createElement(Address, { address: displayedAddress, placeholder: placeholder })));
     };
-    AddressStatic.defaultProps = { renderHiddenInput: true, hiddenInputName: 'address' };
     return AddressStatic;
 }(Component));
-var AddressDisplay = function (_a) {
-    var address = _a.address;
-    if (!address)
-        return null;
-    var splitAddressArr = address.split(',');
-    var addr1 = splitAddressArr[0];
-    var addr2 = splitAddressArr.slice(1).join(',');
-    return (createElement(Fragment, null,
-        createElement("div", null, addr1),
-        createElement("div", null, addr2)));
-};
+var AddressSelector = /** @class */ (function (_super) {
+    __extends(AddressSelector, _super);
+    function AddressSelector() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = { viewState: 'static', value: '' };
+        _this.enableEdit = function () { return _this.setState({ viewState: 'editing' }, _this._focusGeosuggest); };
+        _this.disableEdit = function () { return _this.setState({ viewState: 'static' }); };
+        _this._focusGeosuggest = function () { return _this._geoSuggest.focus(); };
+        _this._onBlur = function (address) {
+            if (address)
+                _this.updateValue(address);
+            _this.disableEdit();
+        };
+        _this._onSelect = function (googlePlacesObject) {
+            var value = googlePlacesObject == undefined ? '' : googlePlacesObject.gmaps.formatted_address;
+            _this.updateValue(value, googlePlacesObject);
+            _this.disableEdit();
+        };
+        _this.reset = function () {
+            _this.setState({ viewState: 'static', value: '' });
+        };
+        _this.updateValue = function (value, googlePlacesObject) {
+            _this.setState({ value: value });
+            if (_this.props.onChange)
+                _this.props.onChange(value, googlePlacesObject);
+        };
+        _this.renderSuggestItem = function (suggestion) { return createElement(Address, { address: suggestion.label }); };
+        return _this;
+    }
+    AddressSelector.prototype.render = function () {
+        var _this = this;
+        var _a = this.props, placeholder = _a.placeholder, className = _a.className, disabled = _a.disabled, invalid = _a.invalid, disabledPlaceholder = _a.disabledPlaceholder, includeHiddenInput = _a.includeHiddenInput, includeStatic = _a.includeStatic, name = _a.name;
+        var value = this.props.value || this.state.value; // if value isn't passed, component keeps track of its own state
+        return this.state.viewState == 'editing' || !includeStatic ? (createElement(Fragment, null,
+            value && value != '' && includeHiddenInput && createElement("input", { type: "hidden", name: name, value: value }),
+            createElement(Geosuggest, { ref: function (i) {
+                    _this._geoSuggest = i;
+                }, className: className, placeholder: placeholder, initialValue: value, renderSuggestItem: this.renderSuggestItem, onSuggestSelect: this._onSelect, onBlur: this._onBlur, name: name }))) : (createElement(AddressStatic, { address: value, onClick: this.enableEdit, disabled: disabled, invalid: invalid, placeholder: placeholder, disabledPlaceholder: disabledPlaceholder }));
+    };
+    AddressSelector.defaultProps = {
+        placeholder: '123 Main St., City, State ZIP',
+        disabledPlaceholder: 'Contact support to add an address',
+        disabled: false,
+        invalid: false,
+        includeHiddenInput: false,
+        includeStatic: true,
+        name: 'address',
+    };
+    return AddressSelector;
+}(Component));
 
 export { ActionButton, AddressSelector, Image, Mock };
