@@ -88,8 +88,7 @@ export class ActionButton extends React.Component<PropsType & React.HTMLProps<HT
         {...props}
         disabled={this.props.disabled || this.state.disabled}
         onClick={event => {
-          this.setState({ disabled: true, status: ActionButton.states.during });
-          this.props.onClick(event);
+          this.setState({ disabled: true, status: ActionButton.states.during }, () => this.props.onClick(event));
         }}
       >
         {this.renderContents()}
